@@ -37,6 +37,9 @@ public class TravelInformationController {
 		return defaulfBookingService.createBooking(booking);
 	}
 	
-	
+	@RequestMapping(value="/bookingStatus")
+	public BookingStatus postFlights() {
+		return defaulfBookingService.getBookingStatus();
+	}
 	
 }

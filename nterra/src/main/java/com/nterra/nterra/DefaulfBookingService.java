@@ -11,6 +11,11 @@ public class DefaulfBookingService implements BookingService {
 
 	private UniversalQueueRequester universalQueueRequester;
 	
+	int bookingId; 
+	boolean isAvailable;
+	FlightStatus flightStatus;
+	HotelStatus hotelStatus;
+	CarStatus carStatus;
 //	private UniversalQueueConsumer universalQueueConsumer;
 	
 	@Autowired
@@ -124,8 +129,59 @@ public class DefaulfBookingService implements BookingService {
 			isAvailable = true;
 		}
 		universalQueueRequester.placeInQueue("carStatus",new CarStatus(isAvailable, carId));
-		
-		
 	}
 
+	public BookingStatus getBookingStatus() {
+		return new BookingStatus(bookingId, isAvailable, flightStatus, hotelStatus, carStatus);
+	}
+
+//	public UniversalQueueRequester getUniversalQueueRequester() {
+//		return universalQueueRequester;
+//	}
+//
+//	public void setUniversalQueueRequester(UniversalQueueRequester universalQueueRequester) {
+//		this.universalQueueRequester = universalQueueRequester;
+//	}
+
+	public int getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(int bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public boolean isAvailable() {
+		return isAvailable;
+	}
+
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
+	public FlightStatus getFlightStatus() {
+		return flightStatus;
+	}
+
+	public void setFlightStatus(FlightStatus flightStatus) {
+		this.flightStatus = flightStatus;
+	}
+
+	public HotelStatus getHotelStatus() {
+		return hotelStatus;
+	}
+
+	public void setHotelStatus(HotelStatus hotelStatus) {
+		this.hotelStatus = hotelStatus;
+	}
+
+	public CarStatus getCarStatus() {
+		return carStatus;
+	}
+
+	public void setCarStatus(CarStatus carStatus) {
+		this.carStatus = carStatus;
+	}
+	
+	
 }
