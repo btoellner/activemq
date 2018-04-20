@@ -16,8 +16,6 @@ public class UniversalQueueRequester {
 	@Autowired
 	public JmsTemplate jmsTemplate;
 	
-	String queue = "allflights";
-	
 	public void placeInQueue(final String queueName, final Object obj) {
 		final String message = gson.toJson(obj, obj.getClass());
 		

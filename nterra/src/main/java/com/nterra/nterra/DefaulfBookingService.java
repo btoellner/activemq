@@ -11,14 +11,18 @@ public class DefaulfBookingService implements BookingService {
 
 	private UniversalQueueRequester universalQueueRequester;
 	
+//	private UniversalQueueConsumer universalQueueConsumer;
+	
 	@Autowired
 	public DefaulfBookingService(UniversalQueueRequester universalQueueRequester) {
 		this.universalQueueRequester = universalQueueRequester;
+		
 //		getFlights();
 		
 		Booking booking = new Booking();
 		booking.setFlightId(1);
-		
+		booking.setHotelId(1);
+		booking.setCarId(1);
 		createBooking(booking);
 	}
 	
@@ -44,30 +48,84 @@ public class DefaulfBookingService implements BookingService {
 		}
 
 	@Override
-	public List getHotels() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Hotel> getHotels() {
+		List<Hotel> hotels = new ArrayList<>();	
+		Hotel hotel1 = new Hotel(1,"USNYC");
+		Hotel hotel2 = new Hotel(2,"FRPAR");
+		Hotel hotel3 = new Hotel(3,"MXMXI");
+		hotels.add(hotel1);
+		hotels.add(hotel2);
+		hotels.add(hotel3);
+		return hotels;
+		
 	}
 
 	@Override
-	public List getCars() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Car> getCars() {
+		List<Car> cars = new ArrayList<>();
+		
+		cars.add(new Car(1, "Sixt"));
+		cars.add(new Car(2, "Hertz"));
+		cars.add(new Car(3, "Europcar"));
+		
+		return cars;
 	}
 
 	public Booking createBooking(Booking booking) {
 		
-		universalQueueRequester.placeInQueue("allFlights", createFlightRequest(booking.getFlightId()));
+		universalQueueRequester.placeInQueue("bookFlight", createFlightRequest(booking.getFlightId()));
+		universalQueueRequester.placeInQueue("bookHotel", createHotelRequest(booking.getHotelId()));
+		universalQueueRequester.placeInQueue("bookCar", createFlightRequest(booking.getCarId()));
 		
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 	
 	private FlightRequest createFlightRequest(final int id) {
 		FlightRequest flightRequest = new FlightRequest();
 		flightRequest.setId(id);
 		
 		return flightRequest;
+	}
+	
+	private HotelRequest createHotelRequest(final int id) {
+		HotelRequest hotelRequest = new HotelRequest();
+		hotelRequest.setId(id);
+		
+		return hotelRequest;
+	}
+
+	// Flight Company Logik 
+	@Override
+	public void handleFlightBooking(Integer flightId) {
+		boolean isAvailable = false;
+		if(flightId >1) {
+			isAvailable = true;
+		}
+		universalQueueRequester.placeInQueue("flightStatus",new FlightStatus(isAvailable, flightId));
+	}
+
+	@Override
+	public void handleHotelBooking(Integer hotelId) {
+		boolean isAvailable = false;
+		if(hotelId >1) {
+			isAvailable = true;
+		}
+		universalQueueRequester.placeInQueue("hotelStatus",new HotelStatus(isAvailable, hotelId));
+		
+	}
+
+	@Override
+	public void handleCarBooking(Integer carId) {
+		boolean isAvailable = false;
+		if(carId >1) {
+			isAvailable = true;
+		}
+		universalQueueRequester.placeInQueue("carStatus",new CarStatus(isAvailable, carId));
+		
+		
 	}
 
 }

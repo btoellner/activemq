@@ -13,6 +13,12 @@ public interface BookingService {
 	public List getHotels();
 	
 	public List getCars();
+
+	public void handleFlightBooking(Integer flightId);
+
+	public void handleHotelBooking(Integer hotelId);
+	
+	public void handleCarBooking(Integer carId);
 	
 	
 }

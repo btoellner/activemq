@@ -20,12 +20,23 @@ public class TravelInformationController {
 	public List<Flight> getFlights() {
 		return defaulfBookingService.getFlights();
 	}
+	
+	@RequestMapping("/hotels")
+	public List<Hotel> getHotels() {
+		return defaulfBookingService.getHotels();
+	}
+	
+	@RequestMapping("/cars")
+	public List<Car> getCars() {
+		return defaulfBookingService.getCars();
+	}
 
 	
 	@RequestMapping(value="/booking", method = RequestMethod.POST)
 	public Booking postFlights(@RequestBody Booking booking) {
 		return defaulfBookingService.createBooking(booking);
 	}
+	
 	
 	
 }
